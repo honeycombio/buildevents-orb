@@ -15,9 +15,9 @@ jobs:
             - run: be-cmd first -- echo "real work here"
             - run: be-cmd sleepytime -- sleep 10
             - run: be-cmd penultimate -- echo "do some more things"
-            - berun:
-                name: last
-                command: echo "publish"
+            # - berun:
+            #     name: last
+            #     command: echo "publish"
 
   cleanup:
     steps:

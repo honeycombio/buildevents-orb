@@ -68,11 +68,11 @@ commands:
           command: buildevents step $CIRCLE_WORKFLOW_ID $STEP_SPAN_ID $STEP_START $CIRCLE_JOB
           when: always
 
-  berun:
-    parameters:
-      name:
-        type: string
-      command:
-        type: string
-    steps:
-      - run: be-cmd << parameters.name >> -- << parameters.command >>
+  # berun:
+  #   parameters:
+  #     name:
+  #       type: string
+  #     command:
+  #       type: string
+  #   steps:
+  #     - run: be-cmd << parameters.name >> -- << parameters.command >>
