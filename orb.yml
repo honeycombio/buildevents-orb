@@ -24,7 +24,7 @@ commands:
             - be/bin/buildevents
       - run:
           name: report_step
-          command: be/bin/buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/be/build_start) setup
+          command: /tmp/be/bin/buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/be/build_start) setup
           when: always
 
   ## TODO add in setup_macos here for cross platform builds
