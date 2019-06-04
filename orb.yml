@@ -40,7 +40,7 @@ commands:
               export PATH=$PATH:/tmp/be/bin-darwin
             fi
             # use that binary to report this step
-            buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/be/build_start) setup
+            buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/be/build_start) start_trace
 
   finish_trace:
     parameters:
@@ -72,7 +72,7 @@ commands:
       - run:
           name: starting span for job
           command: |
-            mkdir /tmp/buildevents/be/${CIRCLE_JOB}
+            mkdir -p /tmp/buildevents/be/${CIRCLE_JOB}
             date +%s > /tmp/buildevents/be/${CIRCLE_JOB}/start
             echo $CIRCLE_JOB | sha256sum | awk '{print $1}' > /tmp/buildevents/be/${CIRCLE_JOB}/span_id
 
