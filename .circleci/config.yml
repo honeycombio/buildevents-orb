@@ -9,6 +9,7 @@ jobs:
   validate:
     executor: cli
     steps:
+      - checkout
       - run: circleci orb validate orb.yml
 
   publish:
