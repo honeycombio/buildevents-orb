@@ -74,7 +74,18 @@ commands:
           command: |
             mkdir -p /tmp/buildevents/be/${CIRCLE_JOB}
             date +%s > /tmp/buildevents/be/${CIRCLE_JOB}/start
-            echo $CIRCLE_JOB | sha256sum | awk '{print $1}' > /tmp/buildevents/be/${CIRCLE_JOB}/span_id
+            BUILDEVENTS_SPAN_ID=$(echo $CIRCLE_JOB | sha256sum | awk '{print $1}')
+            echo $BUILDEVENTS_SPAN_ID > /tmp/buildevents/be/${CIRCLE_JOB}/span_id
+
+            # in case this is a bash env, be kind and export the buildevents path and span ID
+            # this orb won't rely on them but consumers of the orb might find it useful
+            # this way steps that are run within a span can use the raw buildevents if desired
+            echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
+            if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
+              echo "export PATH=$PATH:/tmp/buildevents/be/bin-linux" >> $BASH_ENV
+            elif uname -a | grep Darwin > /dev/null 2>&1; then
+              echo "export PATH=$PATH:/tmp/buildevents/be/bin-darwin" >> $BASH_ENV
+            fi
 
       ### run the job's steps
       - steps: << parameters.steps >>
