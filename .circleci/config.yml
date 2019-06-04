@@ -15,6 +15,7 @@ jobs:
   publish:
     executor: cli
     steps:
+      - checkout
       - run: circleci orb publish orb.yml honeycombio/buildevents@dev:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:7} --token $CIRCLE_TOKEN
 
 workflows:
@@ -32,3 +33,4 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+
