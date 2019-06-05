@@ -1,36 +1,30 @@
 version: 2.1
 
-executors:
-  cli:
-    docker:
-      - image: circleci/circleci-cli:0.1.2709
-
-jobs:
-  validate:
-    executor: cli
-    steps:
-      - checkout
-      - run: circleci orb validate orb.yml
-
-  publish:
-    executor: cli
-    steps:
-      - checkout
-      - run: circleci orb publish orb.yml honeycombio/buildevents@dev:${CIRCLE_BRANCH}-${CIRCLE_SHA1:0:7} --token $CIRCLE_TOKEN
+orbs:
+  orb-tools: circleci/orb-tools@8.14.0
 
 workflows:
+  # build runs on checkins
   build:
     jobs:
-      - validate:
-          filters:
-            tags:
-              only: /.*/
-      - publish:
+      - orb-tools/lint
+      - orb-tools/publish-dev:
+          checkout: true
+          orb-name: honeycombio/buildevents
+          orb-path: orb.yml
+          publish-alpha-version: false
+          publish-sha-version: false
+          branch-sha-version-ref: dev:${CIRCLE_BRANCH}
+          publish-branch-sha-version: true
           requires:
-            - validate
+            - orb-tools/lint
+  promote:
+    jobs:
+      - orb-tools/publish:
+          orb-path: orb.yml
+          orb-ref: honeycombio/buildevents@${CIRCLE_TAG}
           filters:
             tags:
               only: /^v.*/
-            branches:
-              ignore: /.*/
+
 
