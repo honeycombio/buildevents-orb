@@ -22,9 +22,12 @@ workflows:
     jobs:
       - orb-tools/publish:
           orb-path: orb.yml
-          orb-ref: honeycombio/buildevents@${CIRCLE_TAG}
+          # the tags we use are vX.Y.Z but the publish orb wants just X.Y.Z
+          # (without the leading v) Shell expansion needs an end val; hopefully
+          # we never hit 20char
+          orb-ref: honeycombio/buildevents@${CIRCLE_TAG:1:20}
           filters:
             tags:
-              only: /^v.*/
+              only: /^v\d+\.\d+\.\d+/
             branches:
               ignore: /.*/
