@@ -29,7 +29,7 @@ workflows:
       - setup
       - myjob:
           requires:
-          - setup
+            - setup
       - cleanup:
           requires:
-          - cleanup
+            - cleanup
