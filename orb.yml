@@ -93,7 +93,6 @@ commands:
       - run:
           name: finishing span for job
           command: |
-            set -x
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
