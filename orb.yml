@@ -18,7 +18,7 @@ commands:
             date +%s > /tmp/be/build_start
 
             # get all buildevenst binaries so jobs in any OS will work
-            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/latest/download/buildevents
+            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.1.2/buildevents
             curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/latest/download/buildevents-darwin
 
             # make them executable
