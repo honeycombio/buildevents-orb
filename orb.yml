@@ -18,7 +18,7 @@ commands:
             date +%s > /tmp/be/build_start
 
             # get all buildevenst binaries so jobs in any OS will work
-            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.1.2/buildevents
+            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.2.1/buildevents
             curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/latest/download/buildevents-darwin
 
             # make them executable
@@ -42,15 +42,21 @@ commands:
             # use that binary to report this step
             buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/be/build_start) start_trace
 
-  finish_trace:
+  watch_build_and_finish:
+    description: |
+      watch_build_and_finish will poll the CircleCI API to determine when the
+      build is done. It should be its own job dependent on the job that runs
+      start_trace, and no job should depend on it finishing.
     parameters:
-      result:
-        type: string
+      timeout:
+        description: Timeout after which we consider the build failed, in minutes. Should be at least double your longest expected build.
+        type: integer
+        default: 20
     steps:
       - attach_workspace:
           at: /tmp/buildevents
       - run:
-          name: finish build trace
+          name: watch then finish build trace
           command: |
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
@@ -58,8 +64,9 @@ commands:
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
             fi
-            # use that binary to report this step
-            buildevents build $CIRCLE_WORKFLOW_ID $(cat /tmp/buildevents/be/build_start) << parameters.result >>
+            # set the timeout
+            export BUILDEVENT_TIMEOUT=<< parameters.timeout >>
+            buildevents watch $CIRCLE_WORKFLOW_ID
 
   with_job_span:
     ## TODO don't use $BASH_ENV at all; prefer the workspace for all temporary data
