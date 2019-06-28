@@ -8,6 +8,11 @@ description: |
 
 commands:
   start_trace:
+    description: |
+      start_trace should be run in a job all on its own at the very beginning of
+      a build. This job initializes the buildevents config, downloads the
+      bulidevents binary, and otherwise gets the build environment ready for the
+      rest of the jobs.
     steps:
       ### set up buildevents
       - run:
@@ -18,8 +23,8 @@ commands:
             date +%s > /tmp/be/build_start
 
             # get all buildevenst binaries so jobs in any OS will work
-            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.2.2/buildevents
-            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/latest/download/buildevents-darwin
+            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.3.0/buildevents-linux-amd64
+            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.3.0/buildevents-darwin-amd64
 
             # make them executable
             chmod 755 /tmp/be/bin-linux/buildevents
@@ -69,7 +74,6 @@ commands:
             buildevents watch $CIRCLE_WORKFLOW_ID
 
   with_job_span:
-    ## TODO don't use $BASH_ENV at all; prefer the workspace for all temporary data
     parameters:
       steps:
         type: steps
@@ -106,11 +110,38 @@ commands:
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
             fi
+
+            # if there are any extra context values, add them
+            if [ -e /tmp/buildevents/extra_fields.lgfmt ] ; then
+              export BUILDEVENT_FILE=/tmp/buildevents/extra_fields.lgfmt
+            fi
+
+            # go ahead and report the span
             buildevents step $CIRCLE_WORKFLOW_ID \
               $(cat /tmp/buildevents/be/${CIRCLE_JOB}/span_id) \
               $(cat /tmp/buildevents/be/${CIRCLE_JOB}/start) \
               $CIRCLE_JOB
           when: always
+
+  add_context:
+    description: |
+      add_context is a function to add additional fields to the span
+      representing this job. It can be called multiple times, each with one
+      value. It is useful for adding things like artifact sizes, parameters to
+      the job, and so on. Call this with two arguments - the field name and the
+      field value. Both name and value must be strings, but numbers will be
+      coerced before getting sent to Honeycomb. Names must be single words;
+      values can be longer strings. This must be used within the context of
+      `with_job_span`
+    parameters:
+      field_name:
+        description: the name of the field to add to the surrounding step
+        type: string
+      field_value:
+        description: the value of the field to add to the surrounding step
+        type: string
+    steps:
+      - run: echo '<< parameters.field_name >>="<< parameters.field_value >>"' >> /tmp/buildevents/extra_fields.lgfmt
 
   berun:
     description: |
