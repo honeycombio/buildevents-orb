@@ -11,7 +11,7 @@ commands:
     description: |
       start_trace should be run in a job all on its own at the very beginning of
       a build. This job initializes the buildevents config, downloads the
-      bulidevents binary, and otherwise gets the build environment ready for the
+      buildevents binary, and otherwise gets the build environment ready for the
       rest of the jobs.
     steps:
       ### set up buildevents
