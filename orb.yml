@@ -142,8 +142,8 @@ commands:
         type: string
       verbose:
         description: if set to `true`, the extra context field name and content will be echoed to your build log
-        type: string
-        default: "false"
+        type: boolean
+        default: false
     steps:
       - run: |
           if [ "<< parameters.verbose >>" == "true" ] ; then
