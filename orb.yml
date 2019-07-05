@@ -140,11 +140,18 @@ commands:
       field_value:
         description: the value of the field to add to the surrounding step
         type: string
+      verbose:
+        description: if set to `true`, the extra context field name and content will be echoed to your build log
+        type: string
+        default: "false"
     steps:
       - run: |
-          set -x
-          echo << parameters.field_name >>=\"<< parameters.field_value >>\"
-      - run: echo << parameters.field_name >>=\"<< parameters.field_value >>\" >> /tmp/buildevents/extra_fields.lgfmt
+          if [ "<< parameters.verbose >>" == "true" ] ; then
+            echo "adding the following context to the trace:"
+            echo field: << parameters.field_name >>
+            echo value: << parameters.field_value >>
+          fi
+          echo << parameters.field_name >>=\"<< parameters.field_value >>\" >> /tmp/buildevents/extra_fields.lgfmt
 
   berun:
     description: |
