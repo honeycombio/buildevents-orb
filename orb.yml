@@ -143,8 +143,8 @@ commands:
     steps:
       - run: |
           set -x
-          echo << parameters.field_name >>="<< parameters.field_value >>"
-      - run: echo << parameters.field_name >>="<< parameters.field_value >>" >> /tmp/buildevents/extra_fields.lgfmt
+          echo << parameters.field_name >>=\"<< parameters.field_value >>\"
+      - run: echo << parameters.field_name >>=\"<< parameters.field_value >>\" >> /tmp/buildevents/extra_fields.lgfmt
 
   berun:
     description: |
