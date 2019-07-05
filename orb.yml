@@ -141,7 +141,10 @@ commands:
         description: the value of the field to add to the surrounding step
         type: string
     steps:
-      - run: echo '<< parameters.field_name >>="<< parameters.field_value >>"' >> /tmp/buildevents/extra_fields.lgfmt
+      - run: |
+          set -x
+          echo << parameters.field_name >>="<< parameters.field_value >>"
+      - run: echo << parameters.field_name >>="<< parameters.field_value >>" >> /tmp/buildevents/extra_fields.lgfmt
 
   berun:
     description: |
