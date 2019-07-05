@@ -39,4 +39,5 @@ Several of the Honeycomb repositories use buildevents and you can take a look as
 * [buildevents](https://github.com/honeycombio/buildevents/blob/master/.circleci/config.yml) builds itself using buildevents to instrument its own build.
 * [samproxy](https://github.com/honeycombio/samproxy/blob/master/.circleci/config.yml)
 * [honeytail](https://github.com/honeycombio/honeytail/blob/master/.circleci/config.yml)
+* [libhoney-go](https://github.com/honeycombio/libhoney-go/blob/master/.circleci/config.yml) has an example of using parameters and `add_context`
 
