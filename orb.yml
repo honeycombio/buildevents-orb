@@ -141,7 +141,10 @@ commands:
         description: the value of the field to add to the surrounding step
         type: string
       verbose:
-        description: if set to `true`, the extra context field name and content will be echoed to your build log
+        description: |
+          if set to `true`, the extra context field name and content will be
+          evaluated and echoed to your build log in addition to being sent to
+          Hoenycomb
         type: boolean
         default: false
     steps:
