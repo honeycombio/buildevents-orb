@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.2
 
 description: |
   Install and use the Honeycomb buildevents tool for generating traces of your builds
@@ -23,8 +23,8 @@ commands:
             date +%s > /tmp/be/build_start
 
             # get all buildevenst binaries so jobs in any OS will work
-            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.0/buildevents-linux-amd64
-            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.0/buildevents-darwin-amd64
+            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.1/buildevents-linux-amd64
+            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.1/buildevents-darwin-amd64
 
             # make them executable
             chmod 755 /tmp/be/bin-linux/buildevents
