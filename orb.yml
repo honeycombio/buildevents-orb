@@ -1,4 +1,4 @@
-version: 2.2
+version: 2.1
 
 description: |
   Install and use the Honeycomb buildevents tool for generating traces of your builds
