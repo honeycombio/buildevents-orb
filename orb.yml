@@ -7,6 +7,31 @@ description: |
   for use instructions
 
 commands:
+  # the next three (internal) commands are all that require the buildevents release version.  make sure you replace the version in all of them
+  save_be_cache:
+    description: |
+      internal buildevents orb command.  don't use this.
+    steps:
+      - save_cache:
+          key: buildevents-v0.4.4
+          paths:
+            - /tmp/be
+  restore_be_cache:
+    description: |
+      internal buildevents orb command.  don't use this.
+    steps:
+      - restore_cache:
+          key: buildevents-v0.4.4
+  download_be_executables:
+    description: |
+      internal buildevents orb command.  don't use this.
+    steps:
+      - run:
+          name: downloading buildevents executables
+          command: |
+            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-linux-amd64
+            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-darwin-amd64
+
   start_trace:
     description: |
       start_trace should be run in a job all on its own at the very beginning of
@@ -21,20 +46,13 @@ commands:
             # set up our working environment and timestamp the trace
             mkdir -p /tmp/be/bin-linux /tmp/be/bin-darwin
             date +%s > /tmp/be/build_start
-
-            # get all buildevenst binaries so jobs in any OS will work
-            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-linux-amd64
-            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-darwin-amd64
-
-            # make them executable
+      - download_be_executables
+      - run:
+          name: make them executable
+          command: |
             chmod 755 /tmp/be/bin-linux/buildevents
             chmod 755 /tmp/be/bin-darwin/buildevents
-      - persist_to_workspace:
-          root: /tmp
-          paths:
-            - be/build_start
-            - be/bin-linux/buildevents
-            - be/bin-darwin/buildevents
+      - save_be_cache
       - run:
           name: report_step
           command: |
@@ -58,8 +76,7 @@ commands:
         type: integer
         default: 20
     steps:
-      - attach_workspace:
-          at: /tmp/buildevents
+      - restore_be_cache
       - run:
           name: watch then finish build trace
           command: |
@@ -84,8 +101,7 @@ commands:
         description: The final status of the build. Should be either "success" or "failure".
         type: string
     steps:
-      - attach_workspace:
-          at: /tmp/buildevents
+      - restore_be_cache
       - run:
           name: Finish the build by sending the root span
           command: |
@@ -102,8 +118,7 @@ commands:
       steps:
         type: steps
     steps:
-      - attach_workspace:
-          at: /tmp/buildevents
+      - restore_be_cache
       - run:
           name: starting span for job
           command: |
