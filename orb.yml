@@ -82,9 +82,9 @@ commands:
           command: |
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
+              export PATH=$PATH:/tmp/be/bin-linux
             elif uname -a | grep Darwin > /dev/null 2>&1; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
+              export PATH=$PATH:/tmp/be/bin-darwin
             fi
             # set the timeout
             export BUILDEVENT_TIMEOUT=<< parameters.timeout >>
@@ -107,9 +107,9 @@ commands:
           command: |
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
+              export PATH=$PATH:/tmp/be/bin-linux
             elif uname -a | grep Darwin > /dev/null 2>&1; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
+              export PATH=$PATH:/tmp/be/bin-darwin
             fi
             buildevents build $CIRCLE_WORKFLOW_ID $(cat /tmp/be/build_start) << parameters.result >>
 
@@ -132,9 +132,9 @@ commands:
             # this way steps that are run within a span can use the raw buildevents if desired
             echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
-              echo "export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux" >> $BASH_ENV
+              echo "export PATH=$PATH:/tmp/be/bin-linux" >> $BASH_ENV
             elif uname -a | grep Darwin > /dev/null 2>&1; then
-              echo "export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin" >> $BASH_ENV
+              echo "export PATH=$PATH:/tmp/be/bin-darwin" >> $BASH_ENV
             fi
 
       ### run the job's steps
@@ -145,9 +145,9 @@ commands:
           command: |
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
+              export PATH=$PATH:/tmp/be/bin-linux
             elif uname -a | grep Darwin > /dev/null 2>&1; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
+              export PATH=$PATH:/tmp/be/bin-darwin
             fi
 
             # if there are any extra context values, add them
@@ -211,9 +211,9 @@ commands:
           command: |
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
+              export PATH=$PATH:/tmp/be/bin-linux
             elif uname -a | grep Darwin > /dev/null 2>&1; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
+              export PATH=$PATH:/tmp/be/bin-darwin
             fi
             buildevents cmd $CIRCLE_WORKFLOW_ID \
               $(cat /tmp/buildevents/be/${CIRCLE_JOB}/span_id) \
