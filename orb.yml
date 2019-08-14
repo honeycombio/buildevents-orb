@@ -187,13 +187,15 @@ commands:
         type: boolean
         default: false
     steps:
-      - run: |
-          if [ "<< parameters.verbose >>" == "true" ] ; then
-            echo "adding the following context to the trace:"
-            echo field: << parameters.field_name >>
-            echo value: << parameters.field_value >>
-          fi
-          echo << parameters.field_name >>=\"<< parameters.field_value >>\" >> /tmp/buildevents/extra_fields.lgfmt
+      - run:
+          name: adding << parameters.field_name >> to context
+          command: |
+            if [ "<< parameters.verbose >>" == "true" ] ; then
+              echo "adding the following context to the trace:"
+              echo field: << parameters.field_name >>
+              echo value: << parameters.field_value >>
+            fi
+            echo << parameters.field_name >>=\"<< parameters.field_value >>\" >> /tmp/buildevents/extra_fields.lgfmt
 
   berun:
     description: |
