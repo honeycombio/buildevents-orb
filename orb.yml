@@ -7,24 +7,18 @@ description: |
   for use instructions
 
 commands:
-  restore_be_cache:
+  setup_buildevents:
     description: |
       internal buildevents orb command.  don't use this.
     steps:
       - restore_cache:
           key: 'buildevents-{{ .Environment.CIRCLE_WORKFLOW_ID }}'
-
-  start_trace:
-    description: |
-      start_trace should be run in a job all on its own at the very beginning of
-      a build. This job initializes the buildevents config, downloads the
-      buildevents binary, and otherwise gets the build environment ready for the
-      rest of the jobs.
-    steps:
-      ### set up buildevents
       - run:
-          name: setup honeycomb buildevents and start trace
+          name: setup honeycomb buildevents
           command: |
+            # exit early if already setup
+            test -e /tmp/be/build_start && exit || true
+
             # set up our working environment and timestamp the trace
             mkdir -p /tmp/be/bin-linux /tmp/be/bin-darwin
             date +%s > /tmp/be/build_start
@@ -40,6 +34,15 @@ commands:
           key: 'buildevents-{{ .Environment.CIRCLE_WORKFLOW_ID }}'
           paths:
             - /tmp/be
+
+  start_trace:
+    description: |
+      start_trace should be run in a job all on its own at the very beginning of
+      a build. This job initializes the buildevents config, downloads the
+      buildevents binary, and otherwise gets the build environment ready for the
+      rest of the jobs.
+    steps:
+      - setup_buildevents
       - run:
           name: report_step
           command: |
@@ -63,7 +66,7 @@ commands:
         type: integer
         default: 20
     steps:
-      - restore_be_cache
+      - setup_buildevents
       - run:
           name: watch then finish build trace
           command: |
@@ -88,7 +91,7 @@ commands:
         description: The final status of the build. Should be either "success" or "failure".
         type: string
     steps:
-      - restore_be_cache
+      - setup_buildevents
       - run:
           name: Finish the build by sending the root span
           command: |
@@ -105,7 +108,7 @@ commands:
       steps:
         type: steps
     steps:
-      - restore_be_cache
+      - setup_buildevents
       - run:
           name: starting span for job
           command: |
