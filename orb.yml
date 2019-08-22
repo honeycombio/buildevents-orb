@@ -12,28 +12,39 @@ commands:
       internal buildevents orb command.  don't use this.
     steps:
       - restore_cache:
-          key: 'buildevents-{{ .Environment.CIRCLE_WORKFLOW_ID }}'
+          keys:
+            - 'buildevents-{{ .Environment.CIRCLE_WORKFLOW_ID }}'
+            - 'buildevents-v0.4.4'
       - run:
           name: setup honeycomb buildevents
           command: |
-            # exit early if already setup
-            test -e /tmp/be/build_start && exit || true
+            mkdir -p /tmp/be && cd /tmp/be
 
-            # set up our working environment and timestamp the trace
-            mkdir -p /tmp/be/bin-linux /tmp/be/bin-darwin
-            date +%s > /tmp/be/build_start
+            # exit early if already setup
+            test -e build_start && exit || true
+            date +%s > build_start
+
+            # exit early if already downloaded
+            test -e downloaded && exit || true
 
             # get all buildevenst binaries so jobs in any OS will work
-            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-linux-amd64
-            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-darwin-amd64
+            mkdir -p bin-linux bin-darwin
+            curl -q -L -o bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-linux-amd64
+            curl -q -L -o bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-darwin-amd64
 
             # make them executable
-            chmod 755 /tmp/be/bin-linux/buildevents
-            chmod 755 /tmp/be/bin-darwin/buildevents
+            chmod 755 bin-linux/buildevents
+            chmod 755 bin-darwin/buildevents
+
+            touch downloaded
       - save_cache:
           key: 'buildevents-{{ .Environment.CIRCLE_WORKFLOW_ID }}'
           paths:
             - /tmp/be
+      - save_cache:
+          key: 'buildevents-v0.4.4'
+          paths:
+            - /tmp/be/bin-*
 
   start_trace:
     description: |
