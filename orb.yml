@@ -27,7 +27,7 @@ commands:
             # exit early if already downloaded
             test -e downloaded && exit || true
 
-            # get all buildevenst binaries so jobs in any OS will work
+            # get all buildevents binaries so jobs in any OS will work
             mkdir -p bin-linux bin-darwin
             curl -q -L -o bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-linux-amd64
             curl -q -L -o bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-darwin-amd64
