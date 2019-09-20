@@ -13,7 +13,7 @@ commands:
       internal buildevents orb command.  don't use this.
     steps:
       - save_cache:
-          key: buildevents-v0.4.4-dev
+          key: buildevents-v0.4.5
           paths:
             - /tmp/be
   restore_be_cache:
@@ -21,7 +21,7 @@ commands:
       internal buildevents orb command.  don't use this.
     steps:
       - restore_cache:
-          key: buildevents-v0.4.4-dev
+          key: buildevents-v0.4.5
   download_be_executables:
     description: |
       internal buildevents orb command.  don't use this.
@@ -29,8 +29,8 @@ commands:
       - run:
           name: downloading buildevents executables
           command: |
-            curl -q -L -o /tmp/be/bin-linux/buildevents https://501-172153261-gh.circle-artifacts.com/0/go/src/github.com/honeycombio/buildevents/artifacts/buildevents-linux-amd64
-            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.4/buildevents-darwin-amd64
+            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.5/buildevents-linux-amd64
+            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.5/buildevents-darwin-amd64
 
   start_trace:
     description: |
