@@ -188,7 +188,7 @@ commands:
         default: false
     steps:
       - run:
-          name: adding extra field: << parameters.field_name >>
+          name: adding extra field - << parameters.field_name >>
           command: |
             if [ "<< parameters.verbose >>" == "true" ] ; then
               echo "adding the following context to the trace:"
