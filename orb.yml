@@ -1,10 +1,11 @@
 version: 2.1
 
 description: |
-  Install and use the Honeycomb buildevents tool for generating traces of your builds
+  Generate traces of your builds for visual inspection on Honeycomb easily using our buildevents utility.
 
-  Please see the Buildevents Orb Readme (https://github.com/honeycombio/buildevents-orb)
-  for use instructions
+display:
+  source_url: https://github.com/honeycombio/buildevents-orb
+  home_url: https://www.honeycomb.io/
 
 commands:
   # the next three (internal) commands are all that require the buildevents release version.  make sure you replace the version in all of them
