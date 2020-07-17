@@ -38,8 +38,8 @@ If it's impossible to get a Personal CircleCI API Token, you can use the `finish
 ## Examples
 
 Several of the Honeycomb repositories use buildevents and you can take a look as working examples:
-* [buildevents](https://github.com/honeycombio/buildevents/blob/master/.circleci/config.yml) builds itself using buildevents to instrument its own build.
-* [samproxy](https://github.com/honeycombio/samproxy/blob/master/.circleci/config.yml)
-* [honeytail](https://github.com/honeycombio/honeytail/blob/master/.circleci/config.yml)
+* [buildevents](https://github.com/honeycombio/buildevents/blob/main/.circleci/config.yml) builds itself using buildevents to instrument its own build.
+* [samproxy](https://github.com/honeycombio/samproxy/blob/main/.circleci/config.yml)
+* [honeytail](https://github.com/honeycombio/honeytail/blob/main/.circleci/config.yml)
 * [libhoney-go](https://github.com/honeycombio/libhoney-go/blob/master/.circleci/config.yml) has an example of using parameters and `add_context`
 
