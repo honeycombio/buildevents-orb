@@ -3,14 +3,17 @@ version: 2.1
 orbs:
   orb-tools: circleci/orb-tools@8.14.0
 
+jobs:
+  check_arm64_binary_has_been_released:
+      steps:
+        - run: test -f /tmp/be/bin-linux-arm64/buildevents
+
 workflows:
   # build runs on checkins
   build:
     jobs:
       - orb-tools/lint
-      - check_arm64_binary_has_been_released:
-          steps:
-            - run: test -f /tmp/be/bin-linux-arm64/buildevents
+      - check_arm64_binary_has_been_released
       - orb-tools/publish-dev:
           checkout: true
           orb-name: honeycombio/buildevents
