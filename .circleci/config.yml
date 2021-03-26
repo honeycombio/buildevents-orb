@@ -21,7 +21,7 @@ workflows:
           publish-branch-sha-version: true
           requires:
             - orb-tools/lint
-            - check_arm64_binary_has_been_released:
+            - check_arm64_binary_has_been_released
   promote:
     jobs:
       - orb-tools/publish:
