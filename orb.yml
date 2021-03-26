@@ -61,8 +61,7 @@ commands:
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/be/bin-linux
-              # TODO or aarch64?
-            elif uname -a | grep Linux | grep arm64 > /dev/null 2>&1 ; then
+            elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/be/bin-linux-arm64
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/be/bin-darwin
