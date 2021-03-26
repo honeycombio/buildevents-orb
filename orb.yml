@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.2
 
 description: |
   Generate traces of your builds for visual inspection on Honeycomb easily using our buildevents utility.
@@ -31,6 +31,7 @@ commands:
           name: downloading buildevents executables
           command: |
             curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.11/buildevents-linux-amd64
+            curl -q -L -o /tmp/be/bin-linux-arm64/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.11/buildevents-linux-arm64
             curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.4.11/buildevents-darwin-amd64
 
   start_trace:
@@ -45,7 +46,7 @@ commands:
           name: setup honeycomb buildevents and start trace
           command: |
             # set up our working environment and timestamp the trace
-            mkdir -p /tmp/be/bin-linux /tmp/be/bin-darwin
+            mkdir -p /tmp/be/bin-linux /tmp/be/bin-linux-arm64 /tmp/be/bin-darwin
             date +%s > /tmp/be/build_start
       - download_be_executables
       - run:
@@ -60,6 +61,9 @@ commands:
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/be/bin-linux
+              # TODO or aarch64?
+            elif uname -a | grep Linux | grep arm64 > /dev/null 2>&1 ; then
+              export PATH=$PATH:/tmp/be/bin-linux-arm64
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/be/bin-darwin
             fi
