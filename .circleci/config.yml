@@ -8,10 +8,9 @@ workflows:
   build:
     jobs:
       - orb-tools/lint
-      - run:
-          name: check arm64 binary has been released
-          command: |
-            test -f /tmp/be/bin-linux-arm64/buildevents
+      - check_arm64_binary_has_been_released:
+          steps:
+            - run: test -f /tmp/be/bin-linux-arm64/buildevents
       - orb-tools/publish-dev:
           checkout: true
           orb-name: honeycombio/buildevents
@@ -22,6 +21,7 @@ workflows:
           publish-branch-sha-version: true
           requires:
             - orb-tools/lint
+            - check_arm64_binary_has_been_released:
   promote:
     jobs:
       - orb-tools/publish:
