@@ -8,7 +8,6 @@ workflows:
   build:
     jobs:
       - orb-tools/lint
-      - check_arm64_binary_has_been_released
       - orb-tools/publish-dev:
           checkout: true
           orb-name: honeycombio/buildevents
