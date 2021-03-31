@@ -147,6 +147,11 @@ commands:
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               echo "export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin" >> $BASH_ENV
             fi
+            # Make sure the binaries are executable - this should have been done
+            # in the setup job but we've seen it fail to keep the +x bit
+            chmod 755 /tmp/be/bin-linux/buildevents
+            chmod 755 /tmp/be/bin-linux-arm64/buildevents
+            chmod 755 /tmp/be/bin-darwin/buildevents
 
       ### run the job's steps
       - steps: << parameters.steps >>
