@@ -87,6 +87,8 @@ commands:
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
+            elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
+              export PATH=$PATH:/tmp/be/bin-linux-arm64
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
             fi
@@ -112,6 +114,8 @@ commands:
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
+            elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
+              export PATH=$PATH:/tmp/be/bin-linux-arm64
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
             fi
@@ -137,6 +141,8 @@ commands:
             echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
               echo "export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux" >> $BASH_ENV
+            elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
+              echo "export PATH=$PATH:/tmp/be/bin-linux-arm64" >> $BASH_ENV
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               echo "export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin" >> $BASH_ENV
             fi
@@ -150,6 +156,8 @@ commands:
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
+            elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
+              export PATH=$PATH:/tmp/be/bin-linux-arm64
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
             fi
@@ -218,6 +226,8 @@ commands:
             # choose the right buildevents binary
             if uname -a | grep Linux | grep x86_64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
+            elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
+              export PATH=$PATH:/tmp/be/bin-linux-arm64
             elif uname -a | grep Darwin > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
             fi
