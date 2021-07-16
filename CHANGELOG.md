@@ -4,7 +4,6 @@
 
 ### Added
 
-- Set step result on both success and failure (#23) | [abangser](https://github.com/abangser)
 - update to buildevents to 0.6.0 (#30) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
 
 ### Maintenance
