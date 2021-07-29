@@ -35,6 +35,29 @@ The expected use of the Buildevents Orb adds two jobs to your workflow; the rest
 
 If it's impossible to get a Personal CircleCI API Token, you can use the `finish` command instead of `watch_build_and_finish`. You should schedule a job to be run as close to the end of the build as possible. If the job does not run (because a previous job failed) you will not get a root span for the build's trace (though all previous spans will still exist).
 
+## Gotchas
+
+Pipeline parameters are not available for use inside orbs, which means they cannot be used in steps that are wrapped with build events. A common error in CircleCI includes text like `unknown variable`.
+To use pipeline parameters, pass them through as command parameters.
+
+```yaml
+commands:
+  command-using-pipeline-parameter:
+    description: This command uses a pipeline parameter.
+    parameters:
+      working_directory:
+        type: string
+    steps:
+      - run: echo "The working directory is named '<< parameters.working_directory >>'"
+
+test:
+  steps:
+    - buildevents/with_job_span:
+        steps:
+          - command-using-pipeline-parameter:
+              working_directory: << pipeline.parameters.working_directory >>
+```
+
 ## Examples
 
 Several of the Honeycomb repositories use buildevents and you can take a look as working examples:
