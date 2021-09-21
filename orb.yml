@@ -14,7 +14,7 @@ commands:
       internal buildevents orb command.  don't use this.
     steps:
       - save_cache:
-          key: buildevents-v0.6.0-{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+          key: buildevents-v0.6.0{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
           paths:
             - /tmp/be
   restore_be_cache:
@@ -22,7 +22,7 @@ commands:
       internal buildevents orb command.  don't use this.
     steps:
       - restore_cache:
-          key: buildevents-v0.6.0-{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+          key: buildevents-v0.6.0{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
   download_be_executables:
     description: |
       internal buildevents orb command.  don't use this.
