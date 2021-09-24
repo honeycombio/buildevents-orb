@@ -1,6 +1,6 @@
 # buildevents-orb
 
-[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/buildevents-orb)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
+[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/buildevents-orb?color=success)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
 
 Orb for CircleCI to instrument builds with Honeycomb
 
