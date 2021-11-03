@@ -1,5 +1,14 @@
 # buildevents-orb changelog
 
+## [0.3.2] - 2021-11-03
+
+### Maintenance
+
+- bump buildevents to v0.7.0 (#48)
+- empower apply-labels action to apply labels (#47)
+- Change maintenance badge to maintained (#45)
+- Adds Stalebot (#46)
+
 ## [0.3.1] - 2021-09-24
 
 ### Added
