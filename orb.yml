@@ -157,6 +157,16 @@ commands:
       - steps: << parameters.steps >>
 
       - run:
+          name: record failure
+          command: echo status=\"failure\" >> /tmp/buildevents/extra_fields.lgfmt
+          when: on_fail
+
+      - run:
+          name: record success
+          command: echo status=\"success\" >> /tmp/buildevents/extra_fields.lgfmt
+          when: on_success
+
+      - run:
           name: finishing span for job
           command: |
             # choose the right buildevents binary
