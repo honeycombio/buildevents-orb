@@ -1,5 +1,15 @@
 # buildevents-orb changelog
 
+## [0.4.0] - 2021-11-19
+
+### Added
+
+- Track job status (#50) | [@ryanking](https://github.com/ryanking)
+
+### Maintenance
+
+- Bump buildevents from 0.7.0 to 0.7.1 (#51) | [@vreynolds](https://github.com/vreynolds)
+
 ## [0.3.2] - 2021-11-03
 
 ### Maintenance
