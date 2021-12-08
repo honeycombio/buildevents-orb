@@ -18,6 +18,11 @@ workflows:
           publish-branch-sha-version: true
           requires:
             - orb-tools/lint
+          filters:
+            branches:
+              ignore:
+                - /pull\/.*/
+                - /dependabot\/.*/
   promote:
     jobs:
       - orb-tools/publish:
