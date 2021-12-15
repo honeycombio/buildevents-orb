@@ -1,5 +1,15 @@
 # buildevents-orb changelog
 
+## [0.4.1] - 2021-12-16
+
+### Fixed
+
+- Use single quoted bash strings (#53) | [@mbilokonsky](https://github.com/mbilokonsky)
+
+### Maintenance
+
+- Don't run publish-dev step for dependabot and PRs (#54) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
 ## [0.4.0] - 2021-11-19
 
 ### Added
