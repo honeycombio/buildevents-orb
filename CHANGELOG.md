@@ -1,5 +1,15 @@
 # buildevents-orb changelog
 
+## [0.5.0] - 2022-01-07
+
+### Improvements
+
+- lightweight command to create a build marker (#57) | [@nelzkiddom](https://github.com/nelzkiddom)
+
+### Maintenance
+
+- Add re-triage workflow (#56) | [@vreynolds](https://github.com/vreynolds)
+
 ## [0.4.1] - 2021-12-16
 
 ### Fixed
