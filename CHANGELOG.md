@@ -1,6 +1,6 @@
 # buildevents-orb changelog
 
-## [0.5.0] - 2022-01-07
+## [0.5.0] - 2022-01-12
 
 ### Improvements
 
