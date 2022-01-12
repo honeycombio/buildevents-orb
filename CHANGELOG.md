@@ -9,6 +9,7 @@
 ### Maintenance
 
 - Add re-triage workflow (#56) | [@vreynolds](https://github.com/vreynolds)
+- update build events to 0.7.2 (#59) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
 
 ## [0.4.1] - 2021-12-16
 
