@@ -1,6 +1,6 @@
 # buildevents-orb changelog
 
-## [0.6.0] - 2022-05-04
+## [0.5.1] - 2022-05-04
 
 ### Maintenance
 
