@@ -1,5 +1,11 @@
 # buildevents-orb changelog
 
+## [0.6.0] - 2022-05-04
+
+### Maintenance
+
+- Bump buildevents from 0.8.0 to 0.9.2 (#61) | [@vreynolds](https://github.com/vreynolds)
+
 ## [0.5.0] - 2022-01-18
 
 ### Improvements
