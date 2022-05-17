@@ -14,7 +14,7 @@ The orb requires some environment variables to be set. At minimum:
 
 Additional optional environment variables can be found in the [`buildevents`](https://github.com/honeycombio/buildevents) documentation.
 
-The Buildevents Orb is hosted by Honeycomb; to enable your CircleCI config to use 3rd party orbs you must enable third party orbs in the Organization Security settings within CirlceCI. For more information, please visit the [CircleCI documentation on orb use](https://circleci.com/docs/2.0/using-orbs/#certified-vs-3rd-party-orbs).
+The Buildevents Orb is hosted by Honeycomb; to enable your CircleCI config to use 3rd party orbs you must enable third party orbs in the Organization Security settings within CirlceCI. For more information, please visit the [CircleCI documentation on orb use](https://circleci.com/docs/2.0/orbs-faq/#using-uncertified-orbs).
 
 ## Use
 
