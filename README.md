@@ -14,7 +14,7 @@ The orb requires some environment variables to be set. At minimum:
 
 Additional optional environment variables can be found in the [`buildevents`](https://github.com/honeycombio/buildevents) documentation.
 
-The Buildevents Orb is hosted by Honeycomb; to enable your CircleCI config to use 3rd party orbs you must enable third party orbs in the Organization Security settings within CirlceCI. For more information, please visit the [CircleCI documentation on orb use](https://circleci.com/docs/2.0/using-orbs/#certified-vs-3rd-party-orbs).
+The Buildevents Orb is hosted by Honeycomb; to enable your CircleCI config to use 3rd party orbs you must enable third party orbs in the Organization Security settings within CirlceCI. For more information, please visit the [CircleCI documentation on orb use](https://circleci.com/docs/2.0/orbs-faq/#using-uncertified-orbs).
 
 ## Use
 
@@ -65,7 +65,6 @@ test:
 
 Several of the Honeycomb repositories use buildevents and you can take a look as working examples:
 * [buildevents](https://github.com/honeycombio/buildevents/blob/main/.circleci/config.yml) builds itself using buildevents to instrument its own build.
-* [samproxy](https://github.com/honeycombio/samproxy/blob/main/.circleci/config.yml)
-* [honeytail](https://github.com/honeycombio/honeytail/blob/main/.circleci/config.yml)
 * [libhoney-go](https://github.com/honeycombio/libhoney-go/blob/master/.circleci/config.yml) has an example of using parameters and `add_context`
+* [libhoney-py](https://github.com/honeycombio/libhoney-py/blob/main/.circleci/config.yml)
 
