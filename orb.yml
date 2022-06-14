@@ -14,7 +14,7 @@ commands:
       internal buildevents orb command.  don't use this.
     steps:
       - save_cache:
-          key: buildevents-v0.9.2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+          key: buildevents-v0.10.0{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
           paths:
             - /tmp/be
   restore_be_cache:
@@ -22,7 +22,7 @@ commands:
       internal buildevents orb command.  don't use this.
     steps:
       - restore_cache:
-          key: buildevents-v0.9.2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+          key: buildevents-v0.10.0{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
   download_be_executables:
     description: |
       internal buildevents orb command.  don't use this.
@@ -30,9 +30,10 @@ commands:
       - run:
           name: downloading buildevents executables
           command: |
-            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.9.2/buildevents-linux-amd64
-            curl -q -L -o /tmp/be/bin-linux-arm64/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.9.2/buildevents-linux-arm64
-            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.9.2/buildevents-darwin-amd64
+            curl -q -L -o /tmp/be/bin-linux/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.10.0/buildevents-linux-amd64
+            curl -q -L -o /tmp/be/bin-linux-arm64/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.10.0/buildevents-linux-arm64
+            curl -q -L -o /tmp/be/bin-darwin/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.10.0/buildevents-darwin-amd64
+            curl -q -L -o /tmp/be/bin-darwin-arm64/buildevents https://github.com/honeycombio/buildevents/releases/download/v0.10.0/buildevents-darwin-arm64
 
   start_trace:
     description: |
@@ -55,6 +56,7 @@ commands:
             chmod 755 /tmp/be/bin-linux/buildevents
             chmod 755 /tmp/be/bin-linux-arm64/buildevents
             chmod 755 /tmp/be/bin-darwin/buildevents
+            chmod 755 /tmp/be/bin-darwin-arm64/buildevents
       - save_be_cache
       - run:
           name: report_step
@@ -64,8 +66,10 @@ commands:
               export PATH=$PATH:/tmp/be/bin-linux
             elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/be/bin-linux-arm64
-            elif uname -a | grep Darwin > /dev/null 2>&1; then
+            elif uname -a | grep Darwin | grep x86_64 > /dev/null 2>&1; then
               export PATH=$PATH:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep arm64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin-arm64
             fi
             # use that binary to report this step
             buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/be/build_start) start_trace
@@ -90,8 +94,10 @@ commands:
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
             elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/be/bin-linux-arm64
-            elif uname -a | grep Darwin > /dev/null 2>&1; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep x86_64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep arm64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin-arm64
             fi
             # set the timeout
             export BUILDEVENT_TIMEOUT=<< parameters.timeout >>
@@ -117,8 +123,10 @@ commands:
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
             elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/be/bin-linux-arm64
-            elif uname -a | grep Darwin > /dev/null 2>&1; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep x86_64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep arm64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin-arm64
             fi
             buildevents build $CIRCLE_WORKFLOW_ID $(cat /tmp/buildevents/be/build_start) << parameters.result >>
 
@@ -144,8 +152,10 @@ commands:
               echo 'export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux' >> $BASH_ENV
             elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
               echo 'export PATH=$PATH:/tmp/be/bin-linux-arm64' >> $BASH_ENV
-            elif uname -a | grep Darwin > /dev/null 2>&1; then
-              echo 'export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin' >> $BASH_ENV
+            elif uname -a | grep Darwin | grep x86_64 > /dev/null 2>&1; then
+              echo 'export PATH=$PATH:/tmp/be/bin-darwin' >> $BASH_ENV
+            elif uname -a | grep Darwin | grep arm64 > /dev/null 2>&1; then
+              echo 'export PATH=$PATH:/tmp/be/bin-darwin-arm64' >> $BASH_ENV
             fi
             # Make sure the binaries are executable - this should have been done
             # in the setup job but we've seen it fail to keep the +x bit
@@ -174,8 +184,10 @@ commands:
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
             elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/be/bin-linux-arm64
-            elif uname -a | grep Darwin > /dev/null 2>&1; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep x86_64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep arm64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin-arm64
             fi
 
             # if there are any extra context values, add them
@@ -244,8 +256,10 @@ commands:
               export PATH=$PATH:/tmp/buildevents/be/bin-linux:/tmp/be/bin-linux
             elif uname -a | grep Linux | grep -e arm64 -e aarch64 > /dev/null 2>&1 ; then
               export PATH=$PATH:/tmp/be/bin-linux-arm64
-            elif uname -a | grep Darwin > /dev/null 2>&1; then
-              export PATH=$PATH:/tmp/buildevents/be/bin-darwin:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep x86_64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin
+            elif uname -a | grep Darwin | grep arm64 > /dev/null 2>&1; then
+              export PATH=$PATH:/tmp/be/bin-darwin-arm64
             fi
             buildevents cmd $CIRCLE_WORKFLOW_ID \
               $(cat /tmp/buildevents/be/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id) \
