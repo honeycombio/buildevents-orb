@@ -1,5 +1,11 @@
 # buildevents-orb changelog
 
+## [0.8.0] - 2022-08-26
+
+### Maintenance
+
+- bump buildevents from 0.12.1 to 0.13.0 (#70) | [@vreynolds](https://github.com/vreynolds)
+
 ## [0.7.1] - 2022-07-20
 
 ### Maintenance
