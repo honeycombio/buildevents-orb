@@ -1,5 +1,11 @@
 # buildevents-orb changelog
 
+## [0.8.1] - 2022-09-06
+
+### Fixed
+
+- Use double-quotes for BUILDEVENTS_SPAN_ID (#73) | [@lirossarvet](https://github.com/lirossarvet)
+
 ## [0.8.0] - 2022-08-26
 
 ### Maintenance
