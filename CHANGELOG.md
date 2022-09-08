@@ -1,5 +1,11 @@
 # buildevents-orb changelog
 
+## [0.8.2] - 2022-09-08
+
+### Fixed
+
+- Wrap additional env var usage with double quotes (#75) - [@abangser](https://github.com/abangser)
+
 ## [0.8.1] - 2022-09-06
 
 ### Fixed
