@@ -1,10 +1,17 @@
 # buildevents-orb changelog
 
-## [0.8.2] - 2022-09-08
+## [0.9.0] - 2022-09-12
+
+### Enhancements
+
+- Support benames with spaces (#77) - [@abangser](https://github.com/abangser)
 
 ### Fixed
 
 - Wrap additional env var usage with double quotes (#75) - [@abangser](https://github.com/abangser)
+
+NOTE: The changes to replace single quotes with double quotes to correctly evaluate environment variables effectively revers #53.
+You may need to reset your $PATH afterwards if affected (see issue for more details).
 
 ## [0.8.1] - 2022-09-06
 
