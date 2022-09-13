@@ -10,7 +10,7 @@
 
 - Wrap additional env var usage with double quotes (#75) - [@abangser](https://github.com/abangser)
 
-NOTE: The changes to replace single quotes with double quotes to correctly evaluate environment variables effectively revers #53.
+NOTE: The changes to replace single quotes with double quotes to correctly evaluate environment variables effectively reverts #53.
 You may need to reset your $PATH afterwards if affected (see issue for more details).
 
 ## [0.8.1] - 2022-09-06
