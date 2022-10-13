@@ -249,7 +249,7 @@ commands:
             fi
             buildevents cmd $CIRCLE_WORKFLOW_ID \
               $(cat /tmp/buildevents/be/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id) \
-              "<< parameters.bename >>" -- << parameters.becommand >>
+              "<< parameters.bename >>" -- '<< parameters.becommand >>'
 
   create_marker:
     description: |
