@@ -9,6 +9,7 @@ workflows:
     jobs:
       - orb-tools/lint
       - orb-tools/publish-dev:
+          context: orb-publishing
           checkout: true
           orb-name: honeycombio/buildevents
           orb-path: orb.yml
@@ -26,6 +27,7 @@ workflows:
   promote:
     jobs:
       - orb-tools/publish:
+          context: orb-publishing
           orb-path: orb.yml
           # the tags we use are vX.Y.Z but the publish orb wants just X.Y.Z
           # (without the leading v) Shell expansion needs an end val; hopefully
