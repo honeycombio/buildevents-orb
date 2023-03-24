@@ -60,9 +60,3 @@ test:
           - command-using-pipeline-parameter:
               working_directory: << pipeline.parameters.working_directory >>
 ```
-
-## Examples
-
-Several of the Honeycomb repositories use buildevents and you can take a look as working examples:
-* [buildevents](https://github.com/honeycombio/buildevents/blob/main/.circleci/config.yml) builds itself using buildevents to instrument its own build.
-
