@@ -112,7 +112,7 @@ commands:
             # in case this is a bash env, be kind and export the buildevents path and span ID
             # this orb won't rely on them but consumers of the orb might find it useful
             # this way steps that are run within a span can use the raw buildevents if desired
-            
+
             echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
             echo "export PATH=$PATH:~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" >> $BASH_ENV
 
