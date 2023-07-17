@@ -1,5 +1,16 @@
 # buildevents-orb changelog
 
+## [0.10.0] - 2023-07-17
+
+### Enhancements
+
+- Reduce final orb output size (#91) - [@RainofTerra](https://github.com/RainofTerra)
+
+### Maintenance
+
+- bump buildevents from 0.14.0 to 0.15.0 (#92) - [@jharley](https://github.com/jharley)
+- bump buildevents from 0.13.0 to 0.14.0 (#90) - [@jharley](https://github.com/jharley)
+
 ## [0.9.0] - 2022-09-12
 
 ### Enhancements
