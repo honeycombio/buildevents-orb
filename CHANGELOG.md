@@ -1,5 +1,11 @@
 # buildevents-orb changelog
 
+## [0.10.2] - 2023-07-18
+
+### Fixed
+
+- update cache key to handle empty caches after a v0.10.0 run (#96) - [@jharley](https://github.com/jharley)
+
 ## [0.10.1] - 2023-07-18
 
 ### Fixed
