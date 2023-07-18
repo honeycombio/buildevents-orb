@@ -1,5 +1,11 @@
 # buildevents-orb changelog
 
+## [0.10.1] - 2023-07-18
+
+### Fixed
+
+- paths for arm binaries (#94) - [@ismith](https://github.com/ismith)
+
 ## [0.10.0] - 2023-07-17
 
 ### Enhancements
