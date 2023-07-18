@@ -32,8 +32,10 @@ commands:
           command: |
             BASE_URL=https://github.com/honeycombio/buildevents/releases/download/v0.15.0
             curl -q -L -o ~/project/bin/be-linux-x86_64/buildevents ${BASE_URL}/buildevents-linux-amd64
-            curl -q -L -o ~/project/bin/be-linux-aarch64/buildevents ${BASE_URL}/buildevents-linux-aarch64
-            curl -q -L -o ~/project/bin/be-darwin-arm64/buildevents ${BASE_URL}/buildevents-darwin-amd64
+            # Note: the URL says arm64, but the path on disk says aarch64
+            # because that's a thing `uname` gives you.
+            curl -q -L -o ~/project/bin/be-linux-aarch64/buildevents ${BASE_URL}/buildevents-linux-arm64
+            curl -q -L -o ~/project/bin/be-darwin-arm64/buildevents ${BASE_URL}/buildevents-darwin-arm64
 
   start_trace:
     description: |
