@@ -116,7 +116,7 @@ commands:
             # this way steps that are run within a span can use the raw buildevents if desired
 
             echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
-            echo "export PATH=$PATH:~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" >> $BASH_ENV
+            echo 'export PATH=$PATH'":~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" >> $BASH_ENV
 
       ### run the job's steps
       - steps: << parameters.steps >>
