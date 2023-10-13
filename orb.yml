@@ -16,7 +16,7 @@ commands:
       - save_cache:
           key: buildevents-v0.15.0-1{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
           paths:
-            - ~/project/bin
+            - /home/circleci/project/bin
   restore_be_cache:
     description: |
       internal buildevents orb command.  don't use this.
@@ -31,11 +31,11 @@ commands:
           name: downloading buildevents executables
           command: |
             BASE_URL=https://github.com/honeycombio/buildevents/releases/download/v0.15.0
-            curl -q -L -o ~/project/bin/be-linux-x86_64/buildevents ${BASE_URL}/buildevents-linux-amd64
+            curl -q -L -o /home/circleci/project/bin/be-linux-x86_64/buildevents ${BASE_URL}/buildevents-linux-amd64
             # Note: the URL says arm64, but the path on disk says aarch64
             # because that's a thing `uname` gives you.
-            curl -q -L -o ~/project/bin/be-linux-aarch64/buildevents ${BASE_URL}/buildevents-linux-arm64
-            curl -q -L -o ~/project/bin/be-darwin-arm64/buildevents ${BASE_URL}/buildevents-darwin-arm64
+            curl -q -L -o /home/circleci/project/bin/be-linux-aarch64/buildevents ${BASE_URL}/buildevents-linux-arm64
+            curl -q -L -o /home/circleci/project/bin/be-darwin-arm64/buildevents ${BASE_URL}/buildevents-darwin-arm64
 
   start_trace:
     description: |
@@ -49,16 +49,16 @@ commands:
           name: setup honeycomb buildevents and start trace
           command: |
             # set up our working environment and timestamp the trace
-            mkdir -p ~/project/bin/be-linux-x86_64 ~/project/bin/be-linux-aarch64 ~/project/bin/be-darwin-arm64/ /tmp/buildevents/
+            mkdir -p /home/circleci/project/bin/be-linux-x86_64 /home/circleci/project/bin/be-linux-aarch64 /home/circleci/project/bin/be-darwin-arm64/ /tmp/buildevents/
             date +%s > /tmp/buildevents/build_start
       - download_be_executables
       - run:
           name: make them executable
-          command: chmod 755 ~/project/bin/be*/buildevents
+          command: chmod 755 /home/circleci/project/bin/be*/buildevents
       - save_be_cache
       - run:
           name: report_step
-          command: ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/buildevents/build_start) start_trace
+          command: /home/circleci/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/buildevents/build_start) start_trace
 
   watch_build_and_finish:
     description: |
@@ -77,7 +77,7 @@ commands:
           command: |
             # set the timeout
             export BUILDEVENT_TIMEOUT=<< parameters.timeout >>
-            ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents watch $CIRCLE_WORKFLOW_ID
+            /home/circleci/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents watch $CIRCLE_WORKFLOW_ID
 
   finish:
     description: |
@@ -94,7 +94,7 @@ commands:
       - run:
           name: Finish the build by sending the root span
           command: |
-            ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents \
+            /home/circleci/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents \
             build $CIRCLE_WORKFLOW_ID $(cat /tmp/buildevents/build_start) << parameters.result >>
 
   with_job_span:
@@ -116,7 +116,7 @@ commands:
             # this way steps that are run within a span can use the raw buildevents if desired
 
             echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
-            echo 'export PATH=$PATH'":~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" >> $BASH_ENV
+            echo 'export PATH=$PATH'":/home/circleci/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" >> $BASH_ENV
 
       ### run the job's steps
       - steps: << parameters.steps >>
@@ -141,7 +141,7 @@ commands:
 
             # go ahead and report the span
             # choose the right buildevents binary
-            ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $CIRCLE_WORKFLOW_ID \
+            /home/circleci/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $CIRCLE_WORKFLOW_ID \
               $(cat /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id) \
               $(cat /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start) \
               ${CIRCLE_JOB}
@@ -196,7 +196,7 @@ commands:
       - run:
           name: << parameters.bename >>
           command: |
-            ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents cmd $CIRCLE_WORKFLOW_ID \
+            /home/circleci/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents cmd $CIRCLE_WORKFLOW_ID \
               $(cat /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id) \
               "<< parameters.bename >>" -- << parameters.becommand >>
 
