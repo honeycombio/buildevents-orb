@@ -10,7 +10,6 @@ filters: &filters
 
 
 workflows:
-  # build runs on checkins
   build:
     jobs:
       - orb-tools/lint
@@ -38,13 +37,13 @@ workflows:
       - orb-tools/pack:
           filters: *filters
       - orb-tools/review:
-          orb_name: <orb-name>
+          orb_name: buildevents
           filters: *filters
       - shellcheck/check:
           filters: *filters
       - orb-tools/continue:
           pipeline_number: << pipeline.number >>
           vcs_type: << pipeline.project.type >>
-          orb_name: <orb-name>
+          orb_name: buildevents
           requires: [orb-tools/lint, orb-tools/pack, orb-tools/review, shellcheck/check]
           filters: *filters
