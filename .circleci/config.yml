@@ -12,26 +12,6 @@ filters: &filters
 workflows:
   build:
     jobs:
-      - orb-tools/lint
-      - orb-tools/publish-dev:
-          context: orb-publishing
-          checkout: true
-          orb-name: honeycombio/buildevents
-          orb-path: orb.yml
-          publish-alpha-version: false
-          publish-sha-version: false
-          branch-sha-version-ref: dev:${CIRCLE_BRANCH}
-          publish-branch-sha-version: true
-          requires:
-            - orb-tools/lint
-          filters:
-            branches:
-              ignore:
-                - /pull\/.*/
-                - /dependabot\/.*/
-
-  lint-pack:
-    jobs:
       - orb-tools/lint:
           filters: *filters
       - orb-tools/pack:
