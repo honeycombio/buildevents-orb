@@ -35,7 +35,7 @@ jobs:
           steps:
             - buildevents/add_context:
                 field_name: arch
-                field_value: uname -m
+                field_value: $(uname -m)
             - run: sleep 2
 
 workflows:

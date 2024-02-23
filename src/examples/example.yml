@@ -31,7 +31,7 @@ usage:
             steps:
               - buildevents/add_context:
                   field_name: arch
-                  field_value: uname -m
+                  field_value: $(uname -m)
               - run: yarn --immutable
               - run: >
                   # buildevents can be used directly for even more spans
