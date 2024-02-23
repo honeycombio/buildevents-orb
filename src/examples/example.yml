@@ -14,12 +14,15 @@ usage:
             requires: ['setup']
   jobs:
     setup:
+      executor: docker
       steps:
         - buildevents/start_trace
     watch:
+      executor: docker
       steps:
         - buildevents/watch_build_and_finish
     build:
+      executor: docker
       steps:
         - buildevents/with_job_span:
             steps:
