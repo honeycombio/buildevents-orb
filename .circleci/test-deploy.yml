@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   orb-tools: circleci/orb-tools@12.1
-  <orb-name>: {}
+  buildevents: {}
 
 filters: &filters
   tags:
@@ -15,12 +15,18 @@ release-filters: &release
 
 jobs:
   setup:
+    executor: docker
     steps:
       - buildevents/start_trace
       - buildevents/with_job_span:
           steps:
             - run: sleep 2
+  watch:
+    executor: docker
+    steps:
+      - buildevents/watch_build_and_finish
   integration:
+    executor: docker
     steps:
       - buildevents/with_job_span:
           steps:
@@ -30,13 +36,14 @@ jobs:
             - run: sleep 2
 
 workflows:
-  test-deploy:
+  ci:
     jobs:
       - setup:
           filters: *filters
+      - watch:
+          requires: ['setup']
       - integration:
-          requires:
-            - setup
+          requires: ['setup']
           filters: *filters
 
       # The orb must be re-packed for publishing
