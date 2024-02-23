@@ -1,0 +1,32 @@
+description: Basic usage of the buildevents-orb.
+usage:
+  version: 2.1
+  orbs:
+    buildevents: honeycombio/buildevents@0.11.0
+    shellcheck: circleci/shellcheck@3.2.0
+  workflows:
+    setup:
+      jobs:
+        - setup
+        - watch:
+            requires: ['setup']
+        - build:
+            requires: ['setup']
+  jobs:
+    setup:
+      steps:
+        - buildevents/start_trace
+    watch:
+      steps:
+        - buildevents/watch_build_and_finish
+    build:
+      steps:
+        - buildevents/with_job_span:
+            steps:
+              - buildevents/add_context:
+                  field_name: arch
+                  field_value: uname -m
+              - run: yarn --immutable
+              - run: >
+                  # buildevents can be used directly for even more spans
+                  buildevents cmd $CIRCLE_WORKFLOW_ID $BUILDEVENTS_SPAN_ID yarn-test -- yarn test
