@@ -14,15 +14,18 @@ usage:
             requires: ['setup']
   jobs:
     setup:
-      executor: docker
+      docker:
+        - image: cimg/base:stable
       steps:
         - buildevents/start_trace
     watch:
-      executor: docker
+      docker:
+        - image: cimg/base:stable
       steps:
         - buildevents/watch_build_and_finish
     build:
-      executor: docker
+      docker:
+        - image: cimg/base:stable
       steps:
         - buildevents/with_job_span:
             steps:

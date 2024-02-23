@@ -15,18 +15,21 @@ release-filters: &release
 
 jobs:
   setup:
-    executor: docker
+    docker:
+      - image: cimg/base:stable
     steps:
       - buildevents/start_trace
       - buildevents/with_job_span:
           steps:
             - run: sleep 2
   watch:
-    executor: docker
+    docker:
+      - image: cimg/base:stable
     steps:
       - buildevents/watch_build_and_finish
   integration:
-    executor: docker
+    docker:
+      - image: cimg/base:stable
     steps:
       - buildevents/with_job_span:
           steps:
