@@ -1,0 +1,33 @@
+description: |
+  add_context is a function to add additional fields to the span
+  representing this job. It can be called multiple times, each with one
+  value. It is useful for adding things like artifact sizes, parameters to
+  the job, and so on. Call this with two arguments - the field name and the
+  field value. Both name and value must be strings, but numbers will be
+  coerced before getting sent to Honeycomb. Names must be single words;
+  values can be longer strings. This must be used within the context of
+  `with_job_span`
+parameters:
+  field_name:
+    description: the name of the field to add to the surrounding step
+    type: string
+  field_value:
+    description: the value of the field to add to the surrounding step
+    type: string
+  verbose:
+    description: |
+      if set to `true`, the extra context field name and content will be
+      evaluated and echoed to your build log in addition to being sent to
+      Hoenycomb
+    type: boolean
+    default: false
+steps:
+  - run:
+      name: adding extra field - << parameters.field_name >>
+      command: |
+        if [ "<< parameters.verbose >>" == "true" ] ; then
+          echo "adding the following context to the trace:"
+          echo field: << parameters.field_name >>
+          echo value: << parameters.field_value >>
+        fi
+        echo << parameters.field_name >>=\"<< parameters.field_value >>\" >> /tmp/buildevents/extra_fields.lgfmt
