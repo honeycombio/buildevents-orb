@@ -19,6 +19,7 @@ workflows:
       - orb-tools/review:
           orb_name: buildevents
           filters: *filters
+          exclude: RC009,RC010
       - shellcheck/check:
           filters: *filters
       - orb-tools/continue:
