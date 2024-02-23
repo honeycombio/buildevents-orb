@@ -1,3 +1,7 @@
+description: |
+    Starts a span that will record the length of this job.
+    Takes `steps`, just like a normal command, and runs them.
+    When the steps are done, it records the success or failure of the job.
 parameters:
   steps:
     type: steps
