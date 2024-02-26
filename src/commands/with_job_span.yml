@@ -1,0 +1,53 @@
+description: |
+    Starts a span that will record the length of this job.
+    Takes `steps`, just like a normal command, and runs them.
+    When the steps are done, it records the success or failure of the job.
+parameters:
+  steps:
+    type: steps
+steps:
+  - restore_cache:
+      key: buildevents-v0.15.0-1{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+  - run:
+      name: starting span for job
+      command: |
+        mkdir -p /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}
+        date +%s > /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start
+        BUILDEVENTS_SPAN_ID=$(echo ${CIRCLE_JOB}-${CIRCLE_NODE_INDEX} | sha256sum | awk '{print $1}')
+        echo $BUILDEVENTS_SPAN_ID > /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id
+
+        # in case this is a bash env, be kind and export the buildevents path and span ID
+        # this orb won't rely on them but consumers of the orb might find it useful
+        # this way steps that are run within a span can use the raw buildevents if desired
+
+        echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
+        echo 'export PATH=$PATH'":~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" >> $BASH_ENV
+
+  ### run the job's steps
+  - steps: << parameters.steps >>
+
+  - run:
+      name: record failure
+      command: echo status=\"failure\" >> /tmp/buildevents/extra_fields.lgfmt
+      when: on_fail
+
+  - run:
+      name: record success
+      command: echo status=\"success\" >> /tmp/buildevents/extra_fields.lgfmt
+      when: on_success
+
+  - run:
+      name: finishing span for job
+      command: |
+        # if there are any extra context values, add them
+        if [ -e /tmp/buildevents/extra_fields.lgfmt ] ; then
+          export BUILDEVENT_FILE=/tmp/buildevents/extra_fields.lgfmt
+        fi
+
+        # go ahead and report the span
+        # choose the right buildevents binary
+        ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $CIRCLE_WORKFLOW_ID \
+          $(cat /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id) \
+          $(cat /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start) \
+          ${CIRCLE_JOB}
+      when: always

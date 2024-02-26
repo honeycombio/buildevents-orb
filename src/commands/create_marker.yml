@@ -1,0 +1,47 @@
+description: |
+  create_marker can run independently without any other buildevent orb commands
+  or setup running beforehand, it only requires curl and jq to be present
+parameters:
+  api-key:
+    description: |
+      the API key used to create the marker; defaults to `BUILDEVENT_APIKEY`
+    type: env_var_name
+    default: BUILDEVENT_APIKEY
+  dataset:
+    description: |
+      the dataset within which to create the marker; if not explicitly set,
+      will use the environment variable `BUILDEVENT_DATASET`, and if that is
+      not set, will fallback to the literal value "buildevents"
+    type: string
+    default: "${BUILDEVENT_DATASET:-buildevents}"
+  message:
+    description: |
+      the value displayed on the Honeycomb UI; defaults to the value of `CIRCLE_BUILD_NUM`
+    type: string
+    default: "${CIRCLE_BUILD_NUM}"
+  type:
+    description: |
+      all markers of the same type will be shown with the same color in the UI
+    type: string
+    default: ""
+  url:
+    description: |
+      if a URL is specified along with a message, the message will be shown as
+      a link in the UI, and clicking it will take you to the URL; defaults to
+      the value of `CIRCLE_BUILD_URL`
+    type: string
+    default: "${CIRCLE_BUILD_URL}"
+steps:
+  - run:
+      name: create Honeycomb marker
+      command: |
+        MARKER_BODY=$(jq --null-input \
+          --arg msg "<< parameters.message>>" \
+          --arg typ "<< parameters.type >>" \
+          --arg url "<< parameters.url >>" \
+          '{"message": $msg, "type": $typ, "url": $url}'
+        )
+        echo $MARKER_BODY
+        curl "https://api.honeycomb.io/1/markers/<<parameters.dataset>>" \
+          -X POST -H "X-Honeycomb-Team: ${<< parameters.api-key >>}" \
+          -d "${MARKER_BODY}"

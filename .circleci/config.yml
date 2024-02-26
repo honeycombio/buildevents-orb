@@ -1,40 +1,30 @@
 version: 2.1
-
+setup: true
 orbs:
-  orb-tools: circleci/orb-tools@8.14.0
+  orb-tools: circleci/orb-tools@12.1
+  shellcheck: circleci/shellcheck@3.2
+
+filters: &filters
+  tags:
+    only: /.*/
+
 
 workflows:
-  # build runs on checkins
   build:
     jobs:
-      - orb-tools/lint
-      - orb-tools/publish-dev:
-          context: orb-publishing
-          checkout: true
-          orb-name: honeycombio/buildevents
-          orb-path: orb.yml
-          publish-alpha-version: false
-          publish-sha-version: false
-          branch-sha-version-ref: dev:${CIRCLE_BRANCH}
-          publish-branch-sha-version: true
-          requires:
-            - orb-tools/lint
-          filters:
-            branches:
-              ignore:
-                - /pull\/.*/
-                - /dependabot\/.*/
-  promote:
-    jobs:
-      - orb-tools/publish:
-          context: orb-publishing
-          orb-path: orb.yml
-          # the tags we use are vX.Y.Z but the publish orb wants just X.Y.Z
-          # (without the leading v) Shell expansion needs an end val; hopefully
-          # we never hit 20char
-          orb-ref: honeycombio/buildevents@${CIRCLE_TAG:1:20}
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+/
-            branches:
-              ignore: /.*/
+      - orb-tools/lint:
+          filters: *filters
+      - orb-tools/pack:
+          filters: *filters
+      - orb-tools/review:
+          orb_name: buildevents
+          filters: *filters
+          exclude: RC009,RC010
+      - shellcheck/check:
+          filters: *filters
+      - orb-tools/continue:
+          pipeline_number: << pipeline.number >>
+          vcs_type: << pipeline.project.type >>
+          orb_name: buildevents
+          requires: [orb-tools/lint, orb-tools/pack, orb-tools/review, shellcheck/check]
+          filters: *filters

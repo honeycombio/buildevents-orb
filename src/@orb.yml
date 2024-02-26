@@ -1,0 +1,7 @@
+version: 2.1
+
+description: |
+  Generate traces of your builds for visual inspection on Honeycomb easily using our buildevents utility.
+
+display:
+  source_url: https://github.com/honeycombio/buildevents-orb

@@ -1,0 +1,18 @@
+description: |
+  watch_build_and_finish will poll the CircleCI API to determine when the
+  build is done. It should be its own job dependent on the job that runs
+  start_trace, and no job should depend on it finishing.
+parameters:
+  timeout:
+    description: Timeout after which we consider the build failed, in minutes. Should be at least double your longest expected build.
+    type: integer
+    default: 20
+steps:
+  - restore_cache:
+      key: buildevents-v0.15.0-1{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+  - run:
+      name: watch then finish build trace
+      command: |
+        # set the timeout
+        export BUILDEVENT_TIMEOUT=<< parameters.timeout >>
+        ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents watch $CIRCLE_WORKFLOW_ID
