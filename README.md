@@ -40,6 +40,7 @@ If it's impossible to get a Personal CircleCI API Token, you can use the `finish
 
 ## Gotchas
 
+### Pipeline Parameters
 Pipeline parameters are not available for use inside orbs, which means they cannot be used in steps that are wrapped with build events. A common error in CircleCI includes text like `unknown variable`.
 To use pipeline parameters, pass them through as command parameters.
 
@@ -60,3 +61,35 @@ test:
           - command-using-pipeline-parameter:
               working_directory: << pipeline.parameters.working_directory >>
 ```
+
+### Shell Escaping in `add_context`
+
+Like most orbs, this one interpolates your provided `parameters` into shell scripts embedded in config YAML. This is extremely powerful but can lead to some tricky shell escaping situations, especially when using `add_context`. `add_context` is implemented as a command that writes key-value pairs to a file, which are later added to the active span when it's sent. 
+
+```bash
+    echo << parameters.field_name >>=\"<< parameters.field_value >>\" >> context_fields.lgfmt
+```
+
+The above construction allows for dynamic usecases, such as using command substitution to provide values:
+
+```yaml
+- buildevents/add_context:
+    field_name: arch
+    field_value: $(uname -m)
+```
+
+However, it also means that you need to be careful about the values provided, as multiline strings or quotes can break this `echo` command.
+
+```yaml
+- buildevents/add_context:
+    field_name: broken
+    field_value: will break\"
+- buildevents/add_context:
+    field_name: evenmorebroken
+    field_value: |-
+        this will echo\"
+        rm -rf / # oh no now we're executing commands
+        echo hacked="yourself" >> /tmp/buildevents/extra_fields.lgfmt
+```
+         
+**Take extra caution if using dynamic values to ensure the fields are written as you expect.** Providing a parameter of `verbose: true` will echo the field name and value. You can also add an extra command to `cat /tmp/buildevents/extra_fields.lgfmt` to see the exact contents of the fields file that is generated. Remember, your CI pipeline is a bunch of arbitrary shell commands—please make sure they are safe.
