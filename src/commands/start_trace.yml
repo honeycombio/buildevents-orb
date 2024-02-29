@@ -13,7 +13,7 @@ steps:
   - run:
       name: downloading buildevents executables
       command: |
-        BASE_URL=https://github.com/honeycombio/buildevents/releases/download/v0.15.0
+        BASE_URL=https://github.com/honeycombio/buildevents/releases/download/v0.16.0
         curl -q -L -o ~/project/bin/be-linux-x86_64/buildevents ${BASE_URL}/buildevents-linux-amd64
         # Note: the URL says arm64, but the path on disk says aarch64
         # because that's a thing `uname` gives you.
@@ -23,7 +23,7 @@ steps:
       name: make them executable
       command: chmod 755 ~/project/bin/be*/buildevents
   - save_cache:
-      key: buildevents-v0.15.0-1{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+      key: buildevents-v0.16.0-2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
       paths:
         - ~/project/bin
   - run:

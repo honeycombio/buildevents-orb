@@ -7,7 +7,7 @@ parameters:
     type: steps
 steps:
   - restore_cache:
-      key: buildevents-v0.15.0-1{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+      key: buildevents-v0.16.0-2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
   - run:
       name: starting span for job
       command: |
