@@ -64,7 +64,7 @@ test:
 
 ### Shell Escaping in `add_context`
 
-Like most orbs, this one interpolates your provides `parameters` into shell scripts embedded in config YAML. This is extremely powerful but can lead to some tricky shell escaping situations, especially when using `add_context`. `add_context` is implemented as a command that writes key-value pairs to a file, which are later added to the active span when it's sent. 
+Like most orbs, this one interpolates your provided `parameters` into shell scripts embedded in config YAML. This is extremely powerful but can lead to some tricky shell escaping situations, especially when using `add_context`. `add_context` is implemented as a command that writes key-value pairs to a file, which are later added to the active span when it's sent. 
 
 ```bash
     echo << parameters.field_name >>=\"<< parameters.field_value >>\" >> context_fields.lgfmt
