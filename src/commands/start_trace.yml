@@ -23,7 +23,7 @@ steps:
       name: make them executable
       command: chmod 755 ~/project/bin/be*/buildevents
   - save_cache:
-      key: buildevents-v0.16.0-1{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+      key: buildevents-v0.16.0-2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
       paths:
         - ~/project/bin
   - run:
