@@ -1,6 +1,6 @@
 # buildevents-orb changelog
 
-## [0.11.0] - 2024-02-29
+## [0.11.0] - 2024-03-01
 
 ### Fixed
 
