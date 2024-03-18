@@ -12,5 +12,5 @@ steps:
       name: << parameters.bename >>
       command: |
         ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents cmd $CIRCLE_WORKFLOW_ID \
-          $(cat /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id) \
+          $(cat "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id") \
           "<< parameters.bename >>" -- << parameters.becommand >>
