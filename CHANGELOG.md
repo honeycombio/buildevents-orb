@@ -1,5 +1,11 @@
 # buildevents-orb changelog
 
+## [0.11.1] - 2024-03-19
+
+### Fixed
+
+- job names containing spaces should still work (#105) | [@ismith](https://github.com/ismith)
+
 ## [0.11.0] - 2024-03-01
 
 ### Fixed
@@ -7,6 +13,7 @@
 - Don't expand $PATH when writing to BASH_ENV (#98) | [@ravron](https://github.com/ravron)
 
 ### Maintenance
+
 - bump to buildevents v0.16.0 (#103) | [@cewkrupa](https://github.com/cewkrupa)
 - add docs section about add_context pitfalls (#102) | [@dstrelau](https://github.com/dstrelau)
 - add CI integration test (#101) | [@dstrelau](https://github.com/dstrelau)
