@@ -11,10 +11,10 @@ steps:
   - run:
       name: starting span for job
       command: |
-        mkdir -p /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}
-        date +%s > /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start
-        BUILDEVENTS_SPAN_ID=$(echo ${CIRCLE_JOB}-${CIRCLE_NODE_INDEX} | sha256sum | awk '{print $1}')
-        echo $BUILDEVENTS_SPAN_ID > /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id
+        mkdir -p "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}"
+        date +%s > "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start"
+        BUILDEVENTS_SPAN_ID=$(echo "${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}" | sha256sum | awk '{print $1}')
+        echo $BUILDEVENTS_SPAN_ID > "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id"
 
         # in case this is a bash env, be kind and export the buildevents path and span ID
         # this orb won't rely on them but consumers of the orb might find it useful
@@ -47,7 +47,7 @@ steps:
         # go ahead and report the span
         # choose the right buildevents binary
         ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $CIRCLE_WORKFLOW_ID \
-          $(cat /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id) \
-          $(cat /tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start) \
-          ${CIRCLE_JOB}
+          $(cat "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id") \
+          $(cat "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start") \
+          "${CIRCLE_JOB}"
       when: always

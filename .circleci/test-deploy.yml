@@ -48,6 +48,10 @@ workflows:
       - integration:
           requires: ['setup']
           filters: *filters
+      - integration:
+          name: "integration, but job name has spaces"
+          requires: ['setup']
+          filters: *filters
 
       # The orb must be re-packed for publishing
       - orb-tools/pack:
