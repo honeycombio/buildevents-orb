@@ -9,7 +9,7 @@ parameters:
     type: string
 steps:
   - restore_cache:
-      key: buildevents-v0.16.0-2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+      key: buildevents-v0.17.0-2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
   - run:
       name: Finish the build by sending the root span
       command: |

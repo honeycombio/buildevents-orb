@@ -9,7 +9,7 @@ parameters:
     default: 20
 steps:
   - restore_cache:
-      key: buildevents-v0.16.0-2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
+      key: buildevents-v0.17.0-2{{ .Environment.BUILDEVENTS_CACHE_VERSION }}
   - run:
       name: watch then finish build trace
       command: |
