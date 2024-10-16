@@ -15,4 +15,4 @@ steps:
       command: |
         # set the timeout
         export BUILDEVENT_TIMEOUT=<< parameters.timeout >>
-        ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents watch $CIRCLE_WORKFLOW_ID
+        ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents watch $(echo $CIRCLE_WORKFLOW_ID | sed 's/-//g')

@@ -35,4 +35,4 @@ usage:
               - run: yarn --immutable
               - run: >
                   # buildevents can be used directly for even more spans
-                  buildevents cmd $CIRCLE_WORKFLOW_ID $BUILDEVENTS_SPAN_ID yarn-test -- yarn test
+                  buildevents cmd $(echo $CIRCLE_WORKFLOW_ID | sed 's/-//g') $BUILDEVENTS_SPAN_ID yarn-test -- yarn test

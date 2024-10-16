@@ -13,7 +13,7 @@ steps:
       command: |
         mkdir -p "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}"
         date +%s > "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start"
-        BUILDEVENTS_SPAN_ID=$(echo "${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}" | sha256sum | awk '{print $1}')
+        BUILDEVENTS_SPAN_ID=$(echo "${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}" | sha256sum | awk '{print substr($1, 1, 16)}')
         echo $BUILDEVENTS_SPAN_ID > "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id"
 
         # in case this is a bash env, be kind and export the buildevents path and span ID
@@ -46,7 +46,7 @@ steps:
 
         # go ahead and report the span
         # choose the right buildevents binary
-        ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $CIRCLE_WORKFLOW_ID \
+        ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $(echo $CIRCLE_WORKFLOW_ID | sed 's/-//g') \
           $(cat "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id") \
           $(cat "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/start") \
           "${CIRCLE_JOB}"
