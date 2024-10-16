@@ -39,6 +39,7 @@ workflows:
           filters: *dev_filters
           name: dev_publish
           vcs_type: << pipeline.project.type >>
-          orb_name: buildevents
+          orb_name: honeycombio/buildevents
           pub_type: dev
           requires: [orb-tools/pack]
+          context: orb-publishing
