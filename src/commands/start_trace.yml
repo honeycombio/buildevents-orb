@@ -28,4 +28,4 @@ steps:
         - ~/project/bin
   - run:
       name: report_step
-      command: ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $CIRCLE_WORKFLOW_ID setup $(cat /tmp/buildevents/build_start) start_trace
+      command: ~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)/buildevents step $(echo $CIRCLE_WORKFLOW_ID | sed 's/-//g') setup $(cat /tmp/buildevents/build_start) start_trace
