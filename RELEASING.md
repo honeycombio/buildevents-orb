@@ -1,5 +1,6 @@
 # Releasing
 
+- Update [example](./src/examples/example.yml) with new version to be released.
 - Update `CHANGELOG.md` with the changes since the last release.
   - Use below command to get a list of all commits since last release
 
