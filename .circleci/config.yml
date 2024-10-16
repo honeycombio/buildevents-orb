@@ -8,6 +8,9 @@ filters: &filters
   tags:
     only: /.*/
 
+dev_filters: &dev_filters
+  branches:
+    only: main
 
 workflows:
   build:
@@ -28,3 +31,14 @@ workflows:
           orb_name: buildevents
           requires: [orb-tools/lint, orb-tools/pack, orb-tools/review, shellcheck/check]
           filters: *filters
+  publish_dev:
+    jobs:
+      - orb-tools/pack:
+          filters: *dev_filters
+      - orb-tools/publish:
+          filters: *dev_filters
+          name: dev_publish
+          vcs_type: << pipeline.project.type >>
+          orb_name: buildevents
+          pub_type: dev
+          requires: [orb-tools/pack]
