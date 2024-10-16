@@ -10,7 +10,7 @@ filters: &filters
 
 dev_filters: &dev_filters
   branches:
-    only: main
+    only: jamie.publish-dev
 
 workflows:
   build:
