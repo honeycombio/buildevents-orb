@@ -8,23 +8,38 @@ filters: &filters
   tags:
     only: /.*/
 
+dev_filters: &dev_filters
+  branches:
+    only: jamie.publish-dev
 
 workflows:
-  build:
+  # build:
+  #   jobs:
+  #     - orb-tools/lint:
+  #         filters: *filters
+  #     - orb-tools/pack:
+  #         filters: *filters
+  #     - orb-tools/review:
+  #         orb_name: buildevents
+  #         filters: *filters
+  #         exclude: RC009,RC010
+  #     - shellcheck/check:
+  #         filters: *filters
+  #     - orb-tools/continue:
+  #         pipeline_number: << pipeline.number >>
+  #         vcs_type: << pipeline.project.type >>
+  #         orb_name: buildevents
+  #         requires: [orb-tools/lint, orb-tools/pack, orb-tools/review, shellcheck/check]
+  #         filters: *filters
+  publish_dev:
     jobs:
-      - orb-tools/lint:
-          filters: *filters
       - orb-tools/pack:
-          filters: *filters
-      - orb-tools/review:
-          orb_name: buildevents
-          filters: *filters
-          exclude: RC009,RC010
-      - shellcheck/check:
-          filters: *filters
-      - orb-tools/continue:
-          pipeline_number: << pipeline.number >>
+          filters: *dev_filters
+      - orb-tools/publish:
+          filters: *dev_filters
+          name: dev_publish
           vcs_type: << pipeline.project.type >>
-          orb_name: buildevents
-          requires: [orb-tools/lint, orb-tools/pack, orb-tools/review, shellcheck/check]
-          filters: *filters
+          orb_name: honeycombio/buildevents
+          pub_type: dev
+          requires: [orb-tools/pack]
+          context: orb-publishing
