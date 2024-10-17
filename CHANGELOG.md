@@ -5,6 +5,7 @@
 ### Enhancements
 
 - feat(w3c): partially implement w3c tracecontext (#110) | [Liz Fong-Jones](https://github.com/lizthegrey)
+- feat(w3c): add BE trace_id and TRACEPARENT to env (#114) | [Liz Fong-Jones](https://github.com/lizthegrey)
 
 ### Maintenance
 
