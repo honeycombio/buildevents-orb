@@ -1,5 +1,19 @@
 # buildevents-orb changelog
 
+## [0.12.0] - 2024-10-17
+
+### Enhancements
+
+- feat(w3c): partially implement w3c tracecontext (#110) | [Liz Fong-Jones](https://github.com/lizthegrey)
+- feat(w3c): add BE trace_id and TRACEPARENT to env (#114) | [Liz Fong-Jones](https://github.com/lizthegrey)
+
+### Maintenance
+
+- maint(deps): upgrade buildevents binary (#111) | [Liz Fong-Jones](https://github.com/lizthegrey)
+- docs: update vulnerability reporting process (#109) | [Robb Kidd](https://github.com/robbkidd)
+- maint: update repo for pipeline team ownership (#108) | [Jamie Danielson](https://github.com/JamieDanielson)
+- change codeowners to pipeline (#107) | [Brooke Sargent](https://github.com/brookesargent)
+
 ## [0.11.1] - 2024-03-19
 
 ### Fixed
