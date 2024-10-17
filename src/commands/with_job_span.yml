@@ -23,7 +23,7 @@ steps:
         echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
         BUILDEVENTS_TRACE_ID=$(echo $CIRCLE_WORKFLOW_ID | sed 's/-//g')
         echo "export BUILDEVENTS_TRACE_ID=$BUILDEVENTS_TRACE_ID" >> $BASH_ENV
-        echo "export TRACEPARENT=00-${BUILDEVENTS_TRACE_ID}-${BUILDEVENTS_SPAN_ID}-01" >> $BASH_ENV
+        echo "export TRACEPARENT=\"00-${BUILDEVENTS_TRACE_ID}-${BUILDEVENTS_SPAN_ID}-01\"" >> $BASH_ENV
         echo 'export PATH=$PATH'":~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" >> $BASH_ENV
 
   ### run the job's steps
