@@ -16,11 +16,14 @@ steps:
         BUILDEVENTS_SPAN_ID=$(echo "${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}" | sha256sum | awk '{print substr($1, 1, 16)}')
         echo $BUILDEVENTS_SPAN_ID > "/tmp/buildevents/${CIRCLE_JOB}-${CIRCLE_NODE_INDEX}/span_id"
 
-        # in case this is a bash env, be kind and export the buildevents path and span ID
+        # in case this is a bash env, be kind and export the buildevents path, trace ID, and span ID
         # this orb won't rely on them but consumers of the orb might find it useful
         # this way steps that are run within a span can use the raw buildevents if desired
 
         echo "export BUILDEVENTS_SPAN_ID=$BUILDEVENTS_SPAN_ID" >> $BASH_ENV
+        BUILDEVENTS_TRACE_ID=$(echo $CIRCLE_WORKFLOW_ID | sed 's/-//g')
+        echo "export BUILDEVENTS_TRACE_ID=$BUILDEVENTS_TRACE_ID" >> $BASH_ENV
+        echo "export TRACEPARENT=00-${BUILDEVENTS_TRACE_ID}-${BUILDEVENTS_SPAN_ID}-01" >> $BASH_ENV
         echo 'export PATH=$PATH'":~/project/bin/be-$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)" >> $BASH_ENV
 
   ### run the job's steps
