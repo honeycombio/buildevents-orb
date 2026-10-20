@@ -1,5 +1,11 @@
 # buildevents-orb changelog
 
+## [0.13.0] - 2026-10-20
+
+### Maintenance
+
+- maint(deps): upgrade buildevents binary to v0.19.0 (#117) | [Liz Fong-Jones](https://github.com/lizthegrey)
+
 ## [0.12.0] - 2024-10-17
 
 ### Enhancements
